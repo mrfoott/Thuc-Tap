@@ -1,0 +1,7 @@
+Tìm hiểu và bắt đầu viết 1 app cơ bản.
+
+Tiến độ ngày hôm nay:
+
+Em đã hoàn thành xong phần đăng ký và logic đăng ký, cũng như gửi thông tin đến cơ sở dữ liệu.
+
+Em đang bắt đầu thực hiện phần mã hóa password.

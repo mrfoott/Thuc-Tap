@@ -1,0 +1,29 @@
+Tìm hiểu về mã phản hồi trong giao thức HTTP.
+
+NodeJS là một nền tảng giúp JS chạy được ở browser.
+
+Tìm hiểu về module.
+
+Tìm hiểu về include moudule trong chương trình:
+	
+Tìm hiểu về HTTP và FS module.
+
+Tìm hiểu về các thành phần cơ bản của một chương trình NodeJS.
+
+Route là một thành phần quan trọng của website, giúp website biết được người dùng truy cập đến nơi nào của trang web.
+
+ExpressJS là một framework dựa trên nền tảng của NodeJS. Hỗ trợ các method HTTP và middleware để tạo ra API.
+
+Tìm hiểu qua các template engines.
+
+Tìm hiểu về SASS và SCSS.
+
+Tìm hiểu cách kết hợp file HTML và CSS vào dự án.
+
+Tìm hiểu về route trong ExpressJS.
+
+Cấu hình để sử dụng được static file trong project.
+
+Cài đặt một số bộ thư viện cơ bản cho ExpressJs.
+
+Viết được chương trình Hello Work cơ bản với NodeJS và ExpressJS.
