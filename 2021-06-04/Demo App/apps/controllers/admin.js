@@ -1,0 +1,188 @@
+const express = require("express");
+
+const user_md = require("../models/user");
+const post_md = require("../models/post")
+
+const router = express.Router();
+
+const helper = require("../helpers/helper");
+
+router.get("/", function(req, res){
+    // res.json({"message" : "This is Admin page"});
+
+    const data = post_md.getAllPosts();
+
+    data.then(function(posts){
+        const data = {
+            posts: posts,
+            error:false
+        };
+        res.render("admin/home", {data: data})
+    }).catch(function(err){
+        res.render("admin/home", {data: {error: "Get data error"}})
+    });
+});
+
+router.get("/signup", function(req, res){
+    res.render("signup", {data: {}});
+});
+
+router.get("/signin", function(req, res){
+    res.render("signin", {data: {}});
+});
+
+router.post("/signin", function(req, res){
+    const params = req.body;
+
+    if(params.email.trim().length == 0){
+        res.render("signin", {data: {error: "Please enter an email"}});
+    }
+    else {
+        const data = user_md.getUserByEmail(params.email);
+
+        if (data){
+            data.then(function(users){
+                const uuser = users[0];
+
+                const status = helper.compare_password(params.password, uuser.password)
+                
+                if (!status){
+                    res.render("signin", {data: {error: "Password incorrect"}});
+                }
+                else {
+                    req.session.user = uuser;
+                    console.log(req.session);
+                    res.redirect("/admin");
+                }
+            });
+        }
+        else {
+            res.render("signin", {data: {error: "User not exist"}});
+        }
+    }
+});
+
+router.post("/signup", function(req, res){
+    const user = req.body;
+
+    if(user.email.trim().length == 0){
+        res.render("signup", {data: {error: "Email is required"}});
+    }
+
+    if(user.passwd != user.repasswd && user.passwd.trim().length != 0){
+        res.render("signup", {data: {error: "Password is not matched"}});
+    }
+
+    //Insert into DB
+    const password = helper.hash_password(user.passwd);
+
+    userAdd = {
+        email: user.email,
+        password: password,
+        first_name: user.first_name,
+        last_name: user.last_name
+    }
+
+    // result.then(function(data){
+    //     res.redirect("/admin/signin");
+    // })
+    // .catch(function(err){
+    //     res.render("signup", {data: {error: "error"}});
+    // });
+
+    const result = user_md.addUser(userAdd);
+
+    // if (!result) {
+    //     res.render("signup", {data: {error: "Could not insert data to DB"}});
+    // }
+    // else {
+    //     res.json({message : "Inserted to DB"});
+    // }
+
+    result
+    .then ( (data) => { res.redirect("/admin/signin");})
+    .catch( (err) => {res.json({message: err.message})});
+});
+
+router.get("/post/new", function(req, res){
+    res.render("admin/post/new", {data: {error: false}})
+});
+
+router.post("/post/new", function(req, res){
+    const params = req.body;
+
+    if(params.title.trim().length == 0){
+        const data = {
+            error: "Please enter a tittle"
+        };
+
+        res.render("admin/post/new", {data: data})
+    }
+    else {
+        const now = new Date();
+
+        params.created_at = now;
+        params.updated_at = now;
+
+        const data = post_md.addPost(params);
+
+        data.then(function(result){
+            res.redirect("/admin");
+        }).catch(function(err){
+            const data = {
+                error: "Could not post new post"
+            };
+            res.render("admin/post/new", {data: data});
+        });
+    }
+});
+
+router.get("/post/edit/:id", function(req, res){
+    const params = req.params;
+    const id = params.id;
+
+    const data = post_md.getPostByID(id);
+
+    if(data)
+    {
+        data.then(function(posts){
+            const post = posts[0];
+            const data = {
+                post: post,
+                error: false
+            };
+            res.render("admin/post/edit", {data: data})
+        }).catch(function(err){
+            const data = {
+                error: "Could not get post by ID"
+            };
+            res.render("admin/post/edit", {data: data})
+        })
+    }
+    else {
+        const data = {
+            error: "Could not get post by ID"
+        };
+        res.render("admin/post/edit", {data: data})
+    }
+    
+})
+
+router.put("/post/edit", function(req,res){
+    const params = req.body;
+
+    data = post_md.updatePost(params);
+
+    if(!data){
+        res.json({status_code: 500});
+    }
+    else {
+        data.then(function(result){
+            res.json({status_code: 200});
+        }).catch(function(err){
+            res.json({status_code: 500});
+        })
+    }
+});
+
+module.exports = router;

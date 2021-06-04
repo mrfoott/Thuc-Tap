@@ -1,0 +1,3 @@
+Em đang làm đến phần thiết lập logic cho việc chỉnh sửa bài viết.
+Hôm nay em đã hoàn thành việc kết nối đến cơ sở dữ liệu, và thêm mới bài viết.
+Cũng như hoàn thành việc đăng ký, đăng nhập vào trang web.
