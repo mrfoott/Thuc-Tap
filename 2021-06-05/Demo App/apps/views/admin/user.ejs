@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/admin">WebSiteName</a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/admin/post">Posts</a></li>
+                <li><a href="/admin/user">Users</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <div class="panel-heading">
+                Users' info
+            </div>
+
+            <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th rowspan="1" colspan="1">ID</th>
+                                    <th rowspan="1" colspan="1">Email</th>
+                                    <th rowspan="1" colspan="1">First name</th>
+                                    <th rowspan="1" colspan="1">Last name</th>
+                                    <th rowspan="1" colspan="1">Created Time</th>
+                                    <th rowspan="1" colspan="1">Updated Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (data && data.users) {%>
+                                    <% for(var i = 0; i < data.users.length; i++) {%>
+                                    <tr>
+                                        <td> <%= data.users[i].id%> </td>
+                                        <td> <%= data.users[i].email%> </td>
+                                        <td> <%= data.users[i].first_name%> </td>
+                                        <td> <%= data.users[i].last_name%> </td>
+                                        <td> <%= data.users[i].created_at%> </td>
+                                        <td> <%= data.users[i].updated_at%> </td>
+                                    </tr>
+                                    <%}%>
+                                <%}%>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
